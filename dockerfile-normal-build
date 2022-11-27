@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+# BUNDLE LAYERS
+RUN apt-get update -y && apt install -y --no-install-recommends \
+  curl \
+  osmium-tool \
+ && rm -rf /var/lib/apt/lists/*
+RUN mkdir /osmfiles \
+ && mkdir /merged \
+ && curl https://download.geofabrik.de/europe/monaco-latest.osm.pbf -o /osmfiles/monaco.osm.pbf \
+ && curl https://download.geofabrik.de/europe/andorra-latest.osm.pbf -o /osmfiles/andorra.osm.pbf \
+ && osmium merge /osmfiles/monaco.osm.pbf /osmfiles/andorra.osm.pbf -o /merged/merged.osm.pbf
